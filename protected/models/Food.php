@@ -1,28 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "guest_details".
+ * This is the model class for table "food".
  *
- * The followings are the available columns in table 'guest_details':
- * @property integer $guest_id
- * @property string $guest_name
- * @property string $room_number
- * @property string $mobile_number
- * @property string $email
- * @property string $gender
- * @property string $dob
- * @property string $country
- * @property string $food_id
- * @property string $dishes
+ * The followings are the available columns in table 'food':
+ * @property integer $food_id
+ * @property string $food_type
  */
-class GuestDetails extends CActiveRecord
+class Food extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'guest_details';
+		return 'food';
 	}
 
 	/**
@@ -33,13 +25,10 @@ class GuestDetails extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('guest_name, room_number, mobile_number, email', 'required'),
-			array('guest_name, room_number, mobile_number, gender, country, food_id, dishes', 'length', 'max'=>255),
-			array('email', 'length', 'max'=>50),
-			array('dob', 'safe'),
+			array('food_type', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('guest_id, guest_name, room_number, mobile_number, email, gender, dob, country, food_id, dishes', 'safe', 'on'=>'search'),
+			array('food_id, food_type', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -60,16 +49,8 @@ class GuestDetails extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'guest_id' => 'Guest',
-			'guest_name' => 'Guest Name',
-			'room_number' => 'Room Number',
-			'mobile_number' => 'Mobile Number',
-			'email' => 'Email',
-			'gender' => 'Gender',
-			'dob' => 'Dob',
-			'country' => 'Country',
 			'food_id' => 'Food',
-			'dishes' => 'Dishes',
+			'food_type' => 'Food Type',
 		);
 	}
 
@@ -91,16 +72,8 @@ class GuestDetails extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('guest_id',$this->guest_id);
-		$criteria->compare('guest_name',$this->guest_name,true);
-		$criteria->compare('room_number',$this->room_number,true);
-		$criteria->compare('mobile_number',$this->mobile_number,true);
-		$criteria->compare('email',$this->email,true);
-		$criteria->compare('gender',$this->gender,true);
-		$criteria->compare('dob',$this->dob,true);
-		$criteria->compare('country',$this->country,true);
-		$criteria->compare('food_id',$this->food_id,true);
-		$criteria->compare('dishes',$this->dishes,true);
+		$criteria->compare('food_id',$this->food_id);
+		$criteria->compare('food_type',$this->food_type,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -111,7 +84,7 @@ class GuestDetails extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return GuestDetails the static model class
+	 * @return Food the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

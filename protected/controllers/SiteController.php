@@ -27,14 +27,15 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+		$food = Food::model()->findAll();
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 
-		$this->render('index');
+		$this->render('index',array('food'=>$food));
 	}
 
 	public function actionGuestSaveData()
-  { 	//var_dump($_POST);exit;
+  	{ 	
 		$guest = new GuestDetails; 
 		$guest->guest_name = $_POST['guest_name'];
 		$guest->room_number = $_POST['room_number'];
@@ -44,6 +45,7 @@ class SiteController extends Controller
 		$guest->dob = $_POST['dob'];
 		$guest->country = $_POST['country'];
 		$guest->dishes = $_POST['dishes'];
+		$guest->ref_food_id = $_POST['food_type'];
 		if($guest->save(false))
 		{
 			$response = array(
@@ -57,6 +59,7 @@ class SiteController extends Controller
 			);
 		}
 		echo json_encode($response);
+
 	}
 
 	public function actionView(){
@@ -79,11 +82,12 @@ class SiteController extends Controller
 
 	public function actionGuestSearch(){
 		// var_dump($_POST);exit;
+		$food = Food::model()->findAll();
 		$search = GuestDetails::model()->findByPk($_POST["search"]);		
 		if($search != null)
 		{
 			//echo "Searching";	
-			$this->renderPartial('guestSearch02', array('search'=>$search));
+			$this->renderPartial('guestSearch02', array('search'=>$search,'food'=>$food));
 			// $resposne  = array(
 			// 	'status'=>1,
 			// 	'msg'=>'Something went wrong please contact ...',
@@ -103,7 +107,6 @@ class SiteController extends Controller
 			$model->gender = $_POST['gender'];
 			$model->dob = $_POST['dob'];
 			$model->country = $_POST['country'];
-			$model->dishes = $_POST['dishes'];
 			if($model->save(false))
 			{
 				$response = array(
@@ -131,6 +134,20 @@ class SiteController extends Controller
 		echo json_encode($resposne);
 	}
 
+
+	public function actionViewDishes(){
+		//var_dump($_POST);exit;
+
+		$view = Dishes::model()->findAllByAttributes(array('ref_food_id'=>$_POST["food_id"]));
+		$this->renderPartial('viewDishes',array('view'=>$view));
+		
+		//echo '<pre>';var_dump($view);exit;
+		
+	}
+
+	public function actionDishSelect(){
+		var_dump($_POST);exit;
+	}
 
 
 

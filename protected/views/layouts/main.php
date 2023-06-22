@@ -27,6 +27,7 @@
 			'items'=>array(
 				array('label'=>'Home', 'url'=>array('/site/index')),
 				array('label'=>'View', 'url'=>array('/site/view')),
+				array('label'=>'View', 'url'=>array('/site/viewDishes')),
 				// array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),				
 			),
 		)); ?>

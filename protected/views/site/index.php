@@ -52,7 +52,7 @@
 				</div>
 				</br>
 				<div>
-					<label>Country</label>
+					<label>Guest Country</label>
 					<select name="country" id="country">
 						<option value="usa">United States</option>
 						<option value="canada">Canada</option>
@@ -65,19 +65,16 @@
 				</div>
 				</br>
 				<div>
-					<p>Food Cuisine</p>
-                    <div class="body02">
-                        <label class='body02_lbl'>🍲 Indian :</label><br/>
-                        <label><input type="checkbox" name="dishes" id="dish1" value="Test Dish 01 - Indian"> Test Dish 01</label>
-                        <label><input type="checkbox" name="dishes" id="dish2" value="Test Dish 02 - Indian"> Test Dish 02</label>
-                        <label><input type="checkbox" name="dishes" id="dish3" value="Test Dish 03 - Indian"> Test Dish 03</label>
-                    </div>
-					<div class="body02">
-                        <label class='body02_lbl'>🍝 Sri Lankan :</label><br/>
-                        <label><input type="checkbox" name="dishes" id="dish4" value="Test Dish 04 - Sri Lankan"> Test Dish 04</label>
-                        <label><input type="checkbox" name="dishes" id="dish5" value="Test Dish 05 - Sri Lankan"> Test Dish 05</label>
-                        <label><input type="checkbox" name="dishes" id="dish6" value="Test Dish 06 - Sri Lankan"> Test Dish 06</label>
-                    </div>	
+					<label>Food Cuisine</label>
+					<select name="food" id="food" onchange="selectFood()">
+						<option selected disabled value="">Select Food</option>
+						<?php foreach($food as $data){ ?>
+						<option value="<?php echo $data["food_id"] ?>"><?php echo $data["food_type"] ?></option>
+						<?php  }  ?>
+					</select></br>
+
+					<div id="dishes"></div>				
+
 				</div>
 				</br>
 
@@ -105,7 +102,7 @@
 
             data: {guest_name:$('#guest_name').val(),room_number:$('#room_number').val()
 			,mobile_num:$('#mobile_number').val(),email:$('#email').val(),gender:$("input[name='gender']:checked").val(),
-			country:$('#country').val(),dob:$('#dob').val(),dishes:dishesStr
+			country:$('#country').val(),dob:$('#dob').val(),dishes:dishesStr,food_type:$('#food').val(),
             },
 			
             success: function (data) {
@@ -146,5 +143,22 @@
             
         });
     }
-	
+
+	function selectFood(){
+		//alert('Please select')
+		$.ajax({
+			type: 'POST',
+			url:"<?php echo Yii::app()->baseUrl;?>/index.php?r=site/viewDishes",
+
+			data: {food_id: $('#food').val()},
+			success: function(data) {
+					
+					$('#dishes').show();
+					$('#dishes').html(data);
+			}
+
+		});
+	}
+
+    
 </script>

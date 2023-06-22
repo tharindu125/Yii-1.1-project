@@ -26,6 +26,7 @@
             <td><?php echo $data["dob"] ?></td>
             <td><?php echo $data["country"] ?></td>
             <td><?php echo $data["dishes"] ?></td>
+            
             <td><button type="button" onclick="deleteData(<?php echo $data['guest_id']; ?>)">Delete</button></td>
         </tr>
 
